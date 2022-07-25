@@ -10,8 +10,8 @@ const Composite = Matter.Composite;
 let engine;
 let world;
 var solo;
-var corda;
-var uniao;
+var corda,corda2,corda3;
+var uniao,uniao2,uniao3;
 
 var fundo;
 var fruta,frutaimg;
@@ -75,11 +75,15 @@ function setup()
   
   solo = new Ground(200,canH-20,600,20);
 
-  corda = new Rope(7,{x:245,y:30});
+  corda = new Rope(5,{x:245,y:30});
+  corda2 = new Rope(5,{x:145,y:60});
+  corda3 = new Rope(6,{x:55,y:90});
   fruta = Bodies.circle(300,300,20);
   Matter.Composite.add(corda.body,fruta);
 
   uniao = new Link(corda,fruta);
+  uniao2 = new Link(corda2,fruta);
+  uniao3 = new Link(corda3,fruta);
 
   rectMode(CENTER);
   ellipseMode(RADIUS);
@@ -112,7 +116,12 @@ function setup()
   cortar2=createImg("cut_btn.png")
   cortar2.position(150,50)
   cortar2.size(50,50)
-  cortar2.mouseClicked(cair)
+  cortar2.mouseClicked(cair2)
+
+  cortar3=createImg("cut_btn.png")
+  cortar3.position(60,80)
+  cortar3.size(50,50)
+  cortar3.mouseClicked(cair3)
   
   botao=createImg("mute.png")
   botao.position(20,20)
@@ -121,7 +130,7 @@ function setup()
 
   balao=createImg("balloon.png")
   balao.position(20,300)
-  balao.size(50,50)
+  balao.size(70,70)
   balao.mouseClicked(soprar)
 
   }
@@ -134,6 +143,8 @@ function setup()
   }
   
   corda.show();
+  corda2.show();
+  corda3.show();
   Engine.update(engine);
   //solo.show();
   
@@ -157,6 +168,23 @@ function cair()
   somCortando.play()
 
 }
+function cair2()
+{
+  corda2.break();
+  uniao2.detach();
+  uniao2=null;
+  somCortando.play()
+
+}
+function cair3()
+{
+  corda3.break();
+  uniao3.detach();
+  uniao3=null;
+  somCortando.play()
+
+}
+
 function colisao(Body1,Body2)
 {
   if(Body1!=null){
