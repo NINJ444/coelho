@@ -16,11 +16,13 @@ var uniao;
 var fundo;
 var fruta,frutaimg;
 var coelho,coelhoimg;
-var cortar,botao,balao
+var cortar,cortar2,cortar3,botao,balao;
 
 var coelhoPiscando, coelhoComendo, coelhoTriste;
 
 var somTriste,somdefundo,somComendo,somAr,somCortando;
+
+var canW, canH;
 
 function preload()
 {
@@ -49,13 +51,29 @@ function preload()
 
 function setup() 
 {
-  createCanvas(500,700);
+  //createCanvas(500,700);
+
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  if(isMobile){
+    canW = displayWidth;
+    canH = displayHeight;
+    createCanvas(canW,canH);
+  } 
+  else{
+    canW = windowWidth;
+    canH = windowHeight;
+    createCanvas(canW,canH);
+  }
+
   somdefundo.play();
   somdefundo.setVolume(0.5);
+  
   frameRate(80); //taxa de frames
+  
   engine = Engine.create();
   world = engine.world;
-  solo = new Ground(200,680,600,20);
+  
+  solo = new Ground(200,canH-20,600,20);
 
   corda = new Rope(7,{x:245,y:30});
   fruta = Bodies.circle(300,300,20);
@@ -72,7 +90,7 @@ function setup()
   coelhoComendo.frameDelay = 10;
   coelhoTriste.frameDelay = 30;
 
-  coelho=createSprite(width/2,600);
+  coelho=createSprite(200,canH-100);
   coelho.addImage(coelhoimg);
   coelho.scale=0.3;
 
@@ -90,6 +108,11 @@ function setup()
   cortar.position(250,20)
   cortar.size(50,50)
   cortar.mouseClicked(cair)
+
+  cortar2=createImg("cut_btn.png")
+  cortar2.position(150,50)
+  cortar2.size(50,50)
+  cortar2.mouseClicked(cair)
   
   botao=createImg("mute.png")
   botao.position(20,20)
@@ -103,8 +126,8 @@ function setup()
 
   }
 
-    function draw(){
-  image(fundo,width/2,height/2,490,690);
+  function draw(){
+    image(fundo,width/2,height/2,canW,canH);
 
   if(fruta!=null){
     image(frutaimg,fruta.position.x,fruta.position.y,70,70);  
@@ -123,12 +146,8 @@ function setup()
     coelho.changeAnimation('Triste');
     somTriste.play() 
   }
- 
- 
+
   drawSprites();
-
-
-   
 }
 function cair()
 {
